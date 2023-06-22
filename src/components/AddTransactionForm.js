@@ -1,19 +1,16 @@
 import React, { useState } from "react";
 
 function AddTransactionForm({ addNewTransaction }) {
-  const [newDate, setNewDate] = useState("")
-  const [newDescription, setNewDescription] = useState("")
-  const [newCategory, setNewCategory] = useState("")
-  const [newAmount, setNewAmount] = useState("")
+  const [newTransaction, setNewTransaction] = useState({
+    date: "", description: "", category: "", amount: 0,
+  })
+
+  function handleChange(e) {
+    setNewTransaction({ ...newTransaction, [e.target.name]: e.target.value })
+  }
 
   function handleSubmit(event) {
     event.preventDefault()
-    const newTransaction = {
-      "date": newDate,
-      "description": newDescription,
-      "category": newCategory,
-      "amount": newAmount
-    }
     addNewTransaction(newTransaction)
   }
 
@@ -21,10 +18,10 @@ function AddTransactionForm({ addNewTransaction }) {
     <div className="ui segment">
       <form className="ui form" onSubmit={event => handleSubmit(event)}>
         <div className="inline fields">
-          <input type="date" name="date" value={newDate} onChange={e => setNewDate(e.target.value)} />
-          <input type="text" name="description" value={newDescription} placeholder="Description" onChange={e => setNewDescription(e.target.value)} />
-          <input type="text" name="category" value={newCategory} placeholder="Category" onChange={e => setNewCategory(e.target.value)} />
-          <input type="number" name="amount" value={newAmount} placeholder="Amount" step="0.01" onChange={e => setNewAmount(parseFloat(e.target.value))} />
+          <input type="date" name="date" value={newTransaction.date} onChange={handleChange} />
+          <input type="text" name="description" value={newTransaction.description} placeholder="Description" onChange={handleChange} />
+          <input type="text" name="category" value={newTransaction.category} placeholder="Category" onChange={handleChange} />
+          <input type="number" name="amount" value={newTransaction.amount} placeholder="Amount" step="0.01" onChange={handleChange} />
         </div>
         <button className="ui button" type="submit">
           Add Transaction
